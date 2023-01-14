@@ -42,7 +42,7 @@ public class BlogService {
 
         blog.setTitle(title);
 
-
+        blog.setUser(userRepository1.findById(userId).get());
         //Updating the userInformation and changing its blogs
 
         User user=userRepository1.findById(userId).get();
@@ -51,8 +51,8 @@ public class BlogService {
         blogs.add(blog);
 
         user.setBlogList(blogs);
-        blog.setUser(user);
 
+        blogRepository1.save(blog);
         userRepository1.save(user);
 
     }
@@ -68,20 +68,8 @@ public class BlogService {
         //add an image to the blog after creating it
 
 
-        Image image=new Image();
-        image.setDimensions(dimensions);
-        image.setDescription(description);
-
         Blog blog= blogRepository1.findById(blogId).get();
-
-        List<Image> imageList = blog.getImageList();
-
-        imageList.add(image);
-
-        blog.setImageList(imageList);
-        image.setBlog(blog);
-        blogRepository1.save(blog);
-
+        Image image=imageService1.createAndReturn(blog,description,dimensions);
 
     }
 
