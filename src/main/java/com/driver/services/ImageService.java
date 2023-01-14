@@ -6,8 +6,6 @@ import com.driver.repositories.ImageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Service
 public class ImageService {
 
@@ -29,24 +27,24 @@ public class ImageService {
         return image;
     }
 
-    public void deleteImage(int id){
+    public void deleteImage(Image image){
 
-
-        Image image = imageRepository2.findById(id).get();
-
+        int id= image.getId();
         imageRepository2.deleteById(id);
 
     }
 
-    public Image findById(int id) {
+    public Image findById(Image image) {
+        int id =image.getId();
 
-        Image image=imageRepository2.findById(id).get();
-        return image;
+        Image images=imageRepository2.findById(id).get();
+        return images;
     }
 
-    public int countImagesInScreen(int image, String screenDimensions) {
+    public int countImagesInScreen(Image image, String screenDimensions) {
         //Find the number of images of given dimensions that can fit in a screen having `screenDimensions`
         //In case the image is null, return 0
+
 
         return 0;
     }
