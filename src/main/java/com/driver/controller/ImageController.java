@@ -24,7 +24,9 @@ public class ImageController {
     public ResponseEntity<Image> createAndReturn(@RequestBody Blog blog,
                                                  @RequestParam String description,
                                                  @RequestParam String dimensions) {
-        Image image = imageService.createAndReturn(blog,description,dimensions);
+
+        Image image =new Image();
+        image = imageService.createAndReturn(blog,description,dimensions);
         return new ResponseEntity<>(image, HttpStatus.CREATED);
     }
 
@@ -38,8 +40,11 @@ public class ImageController {
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> deleteImage(@PathVariable int id) {
-        Image image= imageRepository.findById(id).get();
-        imageService.deleteImage(image);
+        if(imageRepository.existsById(id) && imageRepository.findById(id).get() !=null)
+        {
+            Image image = imageRepository.findById(id).get();
+            imageService.deleteImage(image);
+        }
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 

@@ -53,14 +53,7 @@ public class ImageService {
     }
 
     public int countImagesInScreen(Image image, String screenDimensions) {
-        //Find the number of images of given dimensions that can fit in a screen having `screenDimensions`
-        // given an image id and a screen size, find the number of images of given size
-        // that can fit completely into the screen with given dimensions.
-        // For example, a screen with dimensions 4X4, can completely fit 4 images,
-        // each having dimensions 2X2.
-        //In case the image is null, return 0
 
-        //complete this function..??
         if (image == null) {
             return 0;
         }
