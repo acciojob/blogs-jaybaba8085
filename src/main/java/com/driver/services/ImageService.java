@@ -21,32 +21,50 @@ public class ImageService {
     public Image createAndReturn(Blog blog, String description, String dimensions){
         //create an image based on given parameters and add it to the imageList of given blog
 
+//        Image image = new Image();
+//        image.setDescription(description);
+//        image.setDimensions(dimensions);
+//
+//        List<Image> imageList = new ArrayList<>();
+//        imageList=blog.getImageList();
+//        imageList.add(image);
+//
+//        blog.setImageList(imageList);
+//
+//        image.setBlog(blog);
+//
+//        imageRepository2.save(image);
+//        blogRepository.save(blog);
+//
+//        return image;
         Image image = new Image();
-        image.setDescription(description);
+        image.setId(Integer.parseInt(UUID.randomUUID().toString()));
         image.setDimensions(dimensions);
-
-        List<Image> imageList = new ArrayList<>();
-        imageList=blog.getImageList();
-        imageList.add(image);
-
-        blog.setImageList(imageList);
-
+        image.setDescription(description);
         image.setBlog(blog);
+
+        List<Image> imageList = blog.getImageList();
+        imageList.add(image);
+        blog.setImageList(imageList);
 
         imageRepository2.save(image);
         blogRepository.save(blog);
 
         return image;
+
     }
 
     public void deleteImage(Image image){
+          if(imageRepository2.existsById(image.getId()))
+          {
+              Blog blog = image.getBlog();
+              List<Image> list = blog.getImageList();
+              list.remove(image);
+              blog.setImageList(list);
 
-            Blog blog = image.getBlog();
-            List<Image> list = blog.getImageList();
-            list.remove(image);
-            blog.setImageList(list);
-            imageRepository2.delete(image);
-            blogRepository.save(blog);
+              imageRepository2.delete(image);
+              blogRepository.save(blog);
+          }
 
  }
 
