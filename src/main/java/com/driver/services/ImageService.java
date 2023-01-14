@@ -24,58 +24,43 @@ public class ImageService {
         image.setDimensions(dimensions);
         image.setDescription(description);
 
-        List<Image> list=new ArrayList<>();
+        List<Image> imageList = blog.getImageList();
+        imageList.add(image);
 
-        int id=blog.getId();
-        if(blogRepository.existsById(id)) {
-            Blog newBlog = blogRepository.findById(id).get();
+        blog.setImageList(imageList);
 
-            list = newBlog.getImageList();
-            list.add(image);
+        image.setBlog(blog);
 
-            newBlog.setImageList(list);
-
-            image.setBlog(newBlog);
-            blogRepository.save(newBlog);
-        }else {
-            list.add(image);
-            imageRepository2.save(image);
-        }
-
+        imageRepository2.save(image);
+        blogRepository.save(blog);
 
         return image;
     }
 
     public void deleteImage(Image image){
 
-        if(imageRepository2.existsById(image.getId())){
-
             Blog blog = image.getBlog();
-
             List<Image> list = blog.getImageList();
-
             list.remove(image);
-
             blog.setImageList(list);
-
             imageRepository2.delete(image);
-        }
 
-    }
+ }
 
-    public Image findById(int id) {
-        Image image=new Image();
-        if(imageRepository2.existsById(id))
-        {
-            image = imageRepository2.findById(id).get();
-            deleteImage(image);
-        }
-        return image;
+    public Image findById(int id)
+    {
+        return imageRepository2.findById(id).get();
     }
 
     public int countImagesInScreen(Image image, String screenDimensions) {
         //Find the number of images of given dimensions that can fit in a screen having `screenDimensions`
+        // given an image id and a screen size, find the number of images of given size
+        // that can fit completely into the screen with given dimensions.
+        // For example, a screen with dimensions 4X4, can completely fit 4 images,
+        // each having dimensions 2X2.
         //In case the image is null, return 0
+
+        //complete this function
 
 
         return 0;
