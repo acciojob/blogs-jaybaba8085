@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 @Service
@@ -25,13 +26,11 @@ public class ImageService {
         image.setId(Integer.parseInt(UUID.randomUUID().toString()));
         image.setDimensions(dimensions);
         image.setDescription(description);
-        image.setBlog(blog);
 
         List<Image> imageList = blog.getImageList();
         imageList.add(image);
         blog.setImageList(imageList);
-
-       // imageRepository2.save(image);
+        image.setBlog(blog);
         blogRepository.save(blog);
 
         return image;
@@ -39,17 +38,15 @@ public class ImageService {
     }
 
     public void deleteImage(Image image){
-          if(imageRepository2.existsById(image.getId()))
-          {
-              Blog blog = image.getBlog();
-              List<Image> list = blog.getImageList();
-              list.remove(image);
-              blog.setImageList(list);
+        if(imageRepository2.existsById(image.getId())) {
+            Blog blog = image.getBlog();
+            List<Image> list = blog.getImageList();
+            list.remove(image);
+            blog.setImageList(list);
 
-              imageRepository2.delete(image);
-              blogRepository.save(blog);
-          }
-
+            imageRepository2.delete(image);
+            blogRepository.save(blog);
+        }
  }
 
     public Image findById(int id)
@@ -59,19 +56,23 @@ public class ImageService {
 
     public int countImagesInScreen(Image image, String screenDimensions) {
 
-        if (image == null) {
-            return 0;
+
+        if(screenDimensions.split("X").length==2 || Objects.nonNull(image)) {
+            String[] imageDimensions = image.getDimensions().split("X");
+
+            int imageWidth = Integer.parseInt(imageDimensions[0]);
+            int imageHeight = Integer.parseInt(imageDimensions[1]);
+
+            String[] screenDim = screenDimensions.split("X");
+            int screenWidth = Integer.parseInt(screenDim[0]);
+            int screenHeight = Integer.parseInt(screenDim[1]);
+
+            int a = screenWidth / imageWidth;
+
+            int b = screenHeight / imageHeight;
+
+            return a*b ;
         }
-        String[] imageDimensions = image.getDimensions().split("X");
-        int imageWidth = Integer.parseInt(imageDimensions[0]);
-        int imageHeight = Integer.parseInt(imageDimensions[1]);
-        String[] screenDim = screenDimensions.split("X");
-        int screenWidth = Integer.parseInt(screenDim[0]);
-        int screenHeight = Integer.parseInt(screenDim[1]);
-        int screenArea = screenWidth * screenHeight;
-
-        int imageArea = imageWidth * imageHeight;
-
-        return screenArea / imageArea;
+        return 0;
     }
 }
