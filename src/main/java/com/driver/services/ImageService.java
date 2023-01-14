@@ -27,17 +27,18 @@ public class ImageService {
         return image;
     }
 
-    public void deleteImage(Image image){
+    public void deleteImage(int id){
 
-        int id= image.getId();
+      //  int id= image.getId();
+
         imageRepository2.deleteById(id);
 
     }
 
-    public Image findById(Image image) {
-        int id =image.getId();
-
+    public Image findById(int id) {
         Image images=imageRepository2.findById(id).get();
+
+        imageRepository2.deleteById(id);
         return images;
     }
 
