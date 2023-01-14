@@ -17,9 +17,17 @@ public class UserService {
     BlogService blogService3;
 
     public void createUser(User user){
+
+        User user1= new User();
+
+        user1.setId(user.getId());
+        user1.setUsername(user.getUsername());
+        user1.setBlogList(user.getBlogList());
+        userRepository3.save(user);
     }
 
     public void deleteUser(int userId){
+       userRepository3.deleteById(userId);
     }
 
     public void updateUser(User user){
