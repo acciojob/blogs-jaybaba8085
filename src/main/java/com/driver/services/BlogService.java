@@ -26,7 +26,8 @@ public class BlogService {
 
     public List<Blog> showBlogs(){
         //find all blogs
-
+      List<Blog> blogList=new ArrayList<>();
+      return blogList;
     }
 
     public void createAndReturnBlog(Integer userId, String title, String content) {
@@ -40,6 +41,12 @@ public class BlogService {
 
     public Blog findBlogById(int blogId){
         //find a blog
+
+
+
+
+        Blog Blog=new Blog();
+        return Blog;
     }
 
     public void addImage(Integer blogId, String description, String dimensions){
