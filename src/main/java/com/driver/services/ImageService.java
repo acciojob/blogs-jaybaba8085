@@ -60,9 +60,20 @@ public class ImageService {
         // each having dimensions 2X2.
         //In case the image is null, return 0
 
-        //complete this function
+        //complete this function..??
+        if (image == null) {
+            return 0;
+        }
+        String[] imageDimensions = image.getDimensions().split("X");
+        int imageWidth = Integer.parseInt(imageDimensions[0]);
+        int imageHeight = Integer.parseInt(imageDimensions[1]);
+        String[] screenDim = screenDimensions.split("X");
+        int screenWidth = Integer.parseInt(screenDim[0]);
+        int screenHeight = Integer.parseInt(screenDim[1]);
+        int screenArea = screenWidth * screenHeight;
 
+        int imageArea = imageWidth * imageHeight;
 
-        return 0;
+        return screenArea / imageArea;
     }
 }
