@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class ImageService {
@@ -21,10 +22,11 @@ public class ImageService {
         //create an image based on given parameters and add it to the imageList of given blog
 
         Image image = new Image();
-        image.setDimensions(dimensions);
         image.setDescription(description);
+        image.setDimensions(dimensions);
 
-        List<Image> imageList = blog.getImageList();
+        List<Image> imageList = new ArrayList<>();
+        imageList=blog.getImageList();
         imageList.add(image);
 
         blog.setImageList(imageList);
@@ -44,6 +46,7 @@ public class ImageService {
             list.remove(image);
             blog.setImageList(list);
             imageRepository2.delete(image);
+            blogRepository.save(blog);
 
  }
 
