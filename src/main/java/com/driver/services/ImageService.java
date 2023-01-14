@@ -41,7 +41,6 @@ public class ImageService {
 
         imageRepository2.save(image);
         blogRepository.save(blog1);
-
         return image;
 
     }
