@@ -48,8 +48,10 @@ public class Image {
         this.blog = blog;
     }
 
-    public Image(String description) {
+    public Image(int id,String description,String dimensions) {
+        this.id=id;
         this.description = description;
+        this.dimensions=dimensions;
     }
 
     public int getId() {

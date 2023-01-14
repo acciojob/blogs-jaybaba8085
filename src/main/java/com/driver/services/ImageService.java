@@ -6,6 +6,9 @@ import com.driver.repositories.ImageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class ImageService {
 
@@ -17,29 +20,57 @@ public class ImageService {
     public Image createAndReturn(Blog blog, String description, String dimensions){
         //create an image based on given parameters and add it to the imageList of given blog
 
-        Image image=new Image();
-
-        image.setDescription(description);
+        Image image = new Image();
         image.setDimensions(dimensions);
-        image.setBlog(blog);
+        image.setDescription(description);
 
-        imageRepository2.save(image);
+        List<Image> list=new ArrayList<>();
+
+        int id=blog.getId();
+        if(blogRepository.existsById(id)) {
+            Blog newBlog = blogRepository.findById(id).get();
+
+            list = newBlog.getImageList();
+            list.add(image);
+
+            newBlog.setImageList(list);
+
+            image.setBlog(newBlog);
+            blogRepository.save(newBlog);
+        }else {
+            list.add(image);
+            imageRepository2.save(image);
+        }
+
+
         return image;
     }
 
-    public void deleteImage(int id){
+    public void deleteImage(Image image){
 
-      //  int id= image.getId();
+        if(imageRepository2.existsById(image.getId())){
 
-        imageRepository2.deleteById(id);
+            Blog blog = image.getBlog();
+
+            List<Image> list = blog.getImageList();
+
+            list.remove(image);
+
+            blog.setImageList(list);
+
+            imageRepository2.delete(image);
+        }
 
     }
 
     public Image findById(int id) {
-        Image images=imageRepository2.findById(id).get();
-
-        imageRepository2.deleteById(id);
-        return images;
+        Image image=new Image();
+        if(imageRepository2.existsById(id))
+        {
+            image = imageRepository2.findById(id).get();
+            deleteImage(image);
+        }
+        return image;
     }
 
     public int countImagesInScreen(Image image, String screenDimensions) {
